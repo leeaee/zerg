@@ -22,15 +22,15 @@ public class AdminServiceTest
     public static void main(String[] args)
     {
         Injector injector = Guice.createInjector(new ConfigModule(), new DataSourceModule(), new ServiceModule());
-        AdminService service = injector.getInstance(AdminServiceImpl.class);
+        AdminServiceImpl service = injector.getInstance(AdminServiceImpl.class);
 
         System.out.println(service.getAdmin(1L));
 
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 10000; i ++)
-        {
-            service.getAdmin(1L);
-        }
-        System.out.println("Guice cast time: " + (System.currentTimeMillis() - startTime));
+//        long startTime = System.currentTimeMillis();
+//        for (int i = 0; i < 10000; i ++)
+//        {
+//            service.getAdmin(1L);
+//        }
+//        System.out.println("Guice cast time: " + (System.currentTimeMillis() - startTime));
     }
 } // end class

@@ -4,5 +4,17 @@
          version="2.5">
 
     <display-name>viper</display-name>
-    
+
+    <listener>
+        <listener-class>com.nsn.zerg.viper.core.listener.InitListener</listener-class>
+    </listener>
+    <filter>
+        <filter-name>Guice Filter</filter-name>
+        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Guice Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
