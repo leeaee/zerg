@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 minutes" >
+<!-- Values can be specified in units of milliseconds, seconds, minutes or hours -->
+
+    <!-- 基本配置 -->
+    <property name="log.base" value="/logs/viper" />
+    <jmxConfigurator />
+    
+    <!-- 控制台日志输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>GBK</charset>
+            <pattern>%date %-5level [%thread] [%logger{160}] - %msg%n%ex</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- 文件日志输出 -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.base}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>${log.base}.log.%i.bak</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>5</MaxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern>%date{ISO8601} %-5level [%thread] [%logger{0}] - %msg%n%ex{full}</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- 自定义日志等级配置 -->
+    <logger name="com.google" level="OFF" />
+    <logger name="org.apache" level="OFF" />
+    <logger name="org.mybatis" level="OFF" />
+    <logger name="java.sql" level="OFF" />
+    
+    <!-- 默认等级配置 -->
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="console" />
+        <appender-ref ref="file" />
+    </root>
+    
+</configuration>

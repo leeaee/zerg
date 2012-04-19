@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nsn.zerg.viper.mapper.AdminMapper">
+
+    <!-- 定义全局查询的SQL变量语句 -->
+    <sql id="entityColumn"> 
+        id, name, password, phone, mobile, email, state, description, 
+        true_name as trueName, 
+        create_time as createTime, 
+        last_modify as lastModify, 
+        last_login as lastLogin 
+    </sql>
+
+    <!-- 获取用户：输出直接映射到对象 -->
+    <select id="find" parameterType="long" resultType="admin">
+        select <include refid="entityColumn" /> 
+        from cs_admin
+        where id=#{id} 
+    </select>
+
+</mapper> 
