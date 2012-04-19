@@ -6,10 +6,11 @@
 
     <groupId>com.nsn.zerg.viper</groupId>
     <artifactId>zerg-viper</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jersey.version>1.12</jersey.version>
         <guice.version>3.0</guice.version>
         <guava.version>11.0.2</guava.version>
         <boncp.version>0.7.1.RELEASE</boncp.version>
@@ -22,10 +23,37 @@
     </properties>
 
     <dependencies>
+        <!-- jersey -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-servlet</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-guice</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!-- google -->
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
             <version>${guice.version}</version>
         </dependency>
         <dependency>
@@ -97,6 +125,12 @@
             <artifactId>cglib</artifactId>
             <version>2.2.2</version>
             <scope>test</scope>
+        </dependency>
+        <!-- javax -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
         </dependency>
     </dependencies>
 
