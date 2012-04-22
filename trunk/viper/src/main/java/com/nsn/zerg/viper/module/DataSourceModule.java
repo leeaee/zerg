@@ -1,7 +1,7 @@
 package com.nsn.zerg.viper.module;
 
 import com.nsn.zerg.viper.entity.Admin;
-import com.nsn.zerg.viper.mapper.AdminMapper;
+import com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.MyBatisModule;
 import org.mybatis.guice.datasource.bonecp.BoneCPProvider;
