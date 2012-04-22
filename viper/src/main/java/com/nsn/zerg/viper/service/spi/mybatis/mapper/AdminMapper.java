@@ -1,4 +1,4 @@
-package com.nsn.zerg.viper.mapper;
+package com.nsn.zerg.viper.service.spi.mybatis.mapper;
 
 import com.nsn.zerg.viper.entity.Admin;
 
@@ -10,4 +10,5 @@ import com.nsn.zerg.viper.entity.Admin;
 public interface AdminMapper
 {
     public Admin find(Long id);
+    public void delete(Long id);
 }

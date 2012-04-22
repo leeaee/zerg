@@ -39,7 +39,7 @@
     
     <!-- 默认等级配置 -->
     <root>
-        <level value="INFO" />
+        <level value="DEBUG" />
         <appender-ref ref="console" />
         <appender-ref ref="file" />
     </root>
