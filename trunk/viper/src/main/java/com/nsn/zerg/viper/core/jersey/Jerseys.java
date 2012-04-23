@@ -1,5 +1,6 @@
 package com.nsn.zerg.viper.core.jersey;
 
+import com.nsn.zerg.viper.core.exception.JerseyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +10,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 /**
- * Jersey辅助类
+ * Jersey������
  * <p/>
  * Author: Genkyo Lee <genkyo.lee@gmail.com>
  * Date: 3/11/12
@@ -20,12 +21,13 @@ public class Jerseys
 {
     private static Logger logger = LoggerFactory.getLogger(Jerseys.class);
 
-    private Jerseys()
+    public static WebApplicationException buildException(JerseyException exception)
     {
+        return buildException(exception.getStatus(), exception.getMessage());
     }
 
     /**
-     * 创建WebApplicationException并记打印日志, 使用标准状态码与自定义信息并记录错误信息.
+     * Build webApplicationException with stander http status and log information.
      */
     public static WebApplicationException buildException(Status status, String message)
     {
@@ -33,31 +35,21 @@ public class Jerseys
     }
 
     /**
-     * 创建WebApplicationException并打印日志, 使用自定义状态码与自定义信息并记录错误信息.
+     * Build webApplicationException with http status code and log information.
      */
     public static WebApplicationException buildException(int status, String message)
     {
-        logger.error("Restful Service Error, Status " + status + ": " + message);
+        logger.error("RESTful service error " + status + ": " + message);
         return new WebApplicationException(buildTextResponse(status, message));
     }
 
     /**
-     * 创建状态码为500的默认WebApplicatonExcetpion, 并在日志中打印RuntimeExcetpion的信息.
-     * 如RuntimeException为WebApplicatonExcetpion则跳过不进行处理.
+     * Create text/plain format return response.
+     *
+     * @param status
+     * @param message
+     * @return
      */
-    public static WebApplicationException buildDefaultException(RuntimeException e)
-    {
-        if (e instanceof WebApplicationException)
-        {
-            return (WebApplicationException) e;
-        }
-        else
-        {
-            logger.error("Restful Service Error, Status 500: " + e.getMessage(), e);
-            return new WebApplicationException();
-        }
-    }
-
     public static Response buildTextResponse(Status status, String message)
     {
         return buildTextResponse(status.getStatusCode(), message);
@@ -67,4 +59,21 @@ public class Jerseys
     {
         return Response.status(status).entity(message).type(MediaType.TEXT_PLAIN).build();
     }
-} // end class
+
+    /**
+     * Create status 500 WebApplicatonExcetpion and log RuntimeException
+     * if RuntimeException is WebApplicatonExcetpion, ignored.
+     */
+    public static WebApplicationException buildDefaultException(RuntimeException e)
+    {
+        if (e instanceof WebApplicationException)
+        {
+            return (WebApplicationException) e;
+        }
+        else
+        {
+            logger.error("RESTful service error 500: " + e.getMessage(), e);
+            return new WebApplicationException();
+        }
+    }
+}

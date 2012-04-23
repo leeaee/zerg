@@ -14,9 +14,9 @@
 
     <!-- 获取用户：输出直接映射到对象 -->
     <select id="find" parameterType="long" resultType="admin">
-        select <include refid="entityColumn" /> 
+        select <include refid="entityColumn" />
         from cs_admin
-        where id=#{id} 
+        where id=#{id}
     </select>
 
     <!-- 更新新用户 -->
