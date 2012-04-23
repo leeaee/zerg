@@ -38,7 +38,7 @@ public class AdminService
         }
         catch (ExecutionException e)
         {
-            throw new EntityNotFoundException(e);
+            throw new EntityNotFoundException(e.getCause().getMessage());
         }
     }
 

@@ -1,32 +1,29 @@
 package com.nsn.zerg.viper.exception;
 
+import com.nsn.zerg.viper.core.exception.JerseyException;
+
 import javax.ws.rs.core.Response.Status;
 
 /**
- * 没有找到实体的异常.
- * <p/>
- * Author: Genkyo Lee <genkyo.lee@gmail.com>
- * Date: 3/15/12
- * Time: 6:19 PM
- * Revision: 1.01
+ * Exception to describe entity is missing.
+ *
+ * User: YiLi
+ * Date: 3/20/12
+ * Time: 18:08 PM
  */
-public class EntityNotFoundException extends Exception
+public class EntityNotFoundException extends JerseyException
 {
-    //Properties
-    private static final long serialVersionUID = 1158620018143052355L;
+    private static final long serialVersionUID = -7101437880545394435L;
+    private static final String BASE_MSG = "entity {0} {1} not found!";
     public static final Status NOT_FOUND = Status.NOT_FOUND;
 
-    //Constructor
-    public EntityNotFoundException(Throwable cause)
+    public EntityNotFoundException(String msg)
     {
-        super(cause.getMessage(), cause);
+        super(NOT_FOUND, msg);
     }
 
-    /**
-     * 用一个消息的key构造, 仅仅简单的说明.
-     */
-    public EntityNotFoundException(Object msg)
+    public EntityNotFoundException(String entityKey, Object entityId)
     {
-        super("Admin(id) " + msg + " not found!");
+        super(NOT_FOUND, BASE_MSG, new Object[]{ entityKey, entityId });
     }
 } // end class

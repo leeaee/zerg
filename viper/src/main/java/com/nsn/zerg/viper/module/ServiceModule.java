@@ -2,9 +2,9 @@ package com.nsn.zerg.viper.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
-import com.nsn.zerg.viper.service.AdminService;
 import com.nsn.zerg.viper.service.dao.AdminDao;
 import com.nsn.zerg.viper.service.spi.mybatis.AdminDaoImpl;
+import com.nsn.zerg.viper.service.AdminService;
 
 /**
  * User: YiLi

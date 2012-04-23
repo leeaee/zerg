@@ -5,6 +5,8 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.ConfigurationConverter;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
@@ -15,6 +17,7 @@ import java.util.Properties;
  */
 public class PropertiesUtils
 {
+    private static Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
     public static Properties properties;
 
     //Methods
@@ -30,7 +33,7 @@ public class PropertiesUtils
             }
             catch (ConfigurationException e)
             {
-//                logger.error("load configuration files failed: {}", e.getMessage());
+                logger.error("load configuration files failed: {}", e.getMessage());
             }
         }
 

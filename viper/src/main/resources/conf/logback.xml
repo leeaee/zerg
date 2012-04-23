@@ -9,7 +9,7 @@
     <!-- 控制台日志输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <charset>GBK</charset>
+            <charset>UTF-8</charset>
             <pattern>%date %-5level [%thread] [%logger{160}] - %msg%n%ex</pattern>
         </encoder>
     </appender>
@@ -33,6 +33,7 @@
     
     <!-- 自定义日志等级配置 -->
     <logger name="com.google" level="OFF" />
+    <logger name="org.eclipse.jetty" level="INFO" />
     <logger name="org.apache" level="OFF" />
     <logger name="org.mybatis" level="OFF" />
     <logger name="java.sql" level="OFF" />

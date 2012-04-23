@@ -3,6 +3,7 @@ package com.nsn.zerg.viper.entity;
 import com.nsn.zerg.viper.core.mapper.JsonMapper;
 import com.nsn.zerg.viper.entity.common.IdEntity;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * Time: 5:10 PM
  * Revision: 1.01
  */
+@XmlRootElement(name = "admin")
 public class Admin extends IdEntity implements Serializable
 {
     private static final long serialVersionUID = -2505591172046127150L;
