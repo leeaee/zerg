@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 /**
- * Jersey¸¨ÖúÀà
+ * Jerseyæ”¯æŒç±»
  * <p/>
  * Author: Genkyo Lee <genkyo.lee@gmail.com>
  * Date: 3/11/12
