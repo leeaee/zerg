@@ -6,7 +6,7 @@
 
     <groupId>com.nsn.zerg.viper</groupId>
     <artifactId>zerg-viper</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,6 +20,7 @@
         <logback.version>1.0.1</logback.version>
         <mysql.version>5.1.19</mysql.version>
         <jackson.version>2.0.0</jackson.version>
+        <shiro.version>1.2.0</shiro.version>
         <jetty.version>8.1.2.v20120308</jetty.version>
     </properties>
 
@@ -118,6 +119,22 @@
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
             <version>1.8</version>
+        </dependency>
+        <!-- apache shiro -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-guice</artifactId>
+            <version>${shiro.version}</version>
         </dependency>
         <!-- jetty -->
         <dependency>
