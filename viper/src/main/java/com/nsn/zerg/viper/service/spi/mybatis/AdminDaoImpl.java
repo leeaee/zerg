@@ -24,7 +24,7 @@ public class AdminDaoImpl implements AdminDao
         Admin admin = this.sqlSession.selectOne("com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper.find", id);
         if (admin == null)
         {
-            throw new EntityNotFoundException("Admin(id)", id);
+            throw new EntityNotFoundException(Admin.KEY, id);
         }
         return admin;
     }

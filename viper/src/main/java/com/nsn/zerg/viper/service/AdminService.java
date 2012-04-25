@@ -1,5 +1,6 @@
 package com.nsn.zerg.viper.service;
 
+import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.LoadingCache;
 import com.nsn.zerg.viper.entity.Admin;
@@ -38,7 +39,8 @@ public class AdminService
         }
         catch (ExecutionException e)
         {
-            throw new EntityNotFoundException(e.getCause().getMessage());
+            Throwables.propagateIfPossible(e.getCause(), EntityNotFoundException.class);
+            throw new RuntimeException(e);
         }
     }
 
