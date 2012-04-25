@@ -38,7 +38,11 @@ public class AdminResouceService
         }
         catch (EntityNotFoundException e)
         {
-            throw Jerseys.buildException(404, e.getMessage());
+            throw Jerseys.buildException(e.getStatus(), e.getMessage());
+        }
+        catch (RuntimeException e)
+        {
+            throw Jerseys.buildDefaultException(e);
         }
     }
 

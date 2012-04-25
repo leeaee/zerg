@@ -1,111 +1,112 @@
 package com.nsn.zerg.viper.core.exception;
 
-import javax.ws.rs.core.Response.Status;
-import java.text.MessageFormat;
+import com.nsn.zerg.viper.core.i18n.I18NException;
+
+import javax.ws.rs.core.Response;
 
 /**
  * User: YiLi
  * Date: 3/20/12
  * Time: 11:34 AM
  */
-public class JerseyException extends Exception
+public class JerseyException extends I18NException
 {
     //Properties
     private static final long serialVersionUID = 6538550594551417029L;
-    private Object[] params;
-    private Status status;
-
-    //Constructors
+    /**
+     * 出现NullPointerException时，报告给用户的消息. 如：
+     * <pre>
+     * catch (NullPointerException e) {
+     *     throw new EWWebException(EWWebException.NULL);
+     * }
+     * </pre>
+     */
+    public static final String NULL = "exception.null.pointer";
 
     /**
-     * Construct a exception with throwable cause.
-     *
-     * @param cause
+     * 出现RuntimeException时，报告给用户的消息. 如：
+     * <pre>
+     * catch (RuntimeException e) {
+     *     throw new EWWebException(EWWebException.RUNTIME, e);
+     * }
+     * </pre>
      */
-    public JerseyException(Throwable cause)
-    {
-        super(cause.getMessage(), cause);
+    public static final String RUNTIME = "exception.runtime";
+
+    /**
+     * 一个字典的key，该 key 没有内容，只有一个参数{0}.
+     */
+    public static final String BLANK = "exception.blank";
+
+    /**
+     * URL不存在时，报告给用户的消息.
+     */
+    public static final String URL_NOT_FOUND = "exception.urlnotfound";
+
+    /**
+     * 出现敏感词汇时，报告给用户的消息.
+     */
+    public static final String SENSITIVE_WORDS = "exception.sensiwords";
+
+    /**
+     * 网络连接不通时，报告给用户的消息.
+     */
+    public static final String NETWORK = "exception.network";
+
+    //Constructor
+    /**
+     * 用一个消息<code>msg</code>构造一个Exception. <p /> 若该msg在字典中有对应的消息，则该msg将作为该消息的key，否则，getMessage()方法将直接返回该msg。
+     *
+     * @param status
+     * @param msg 错误消息
+     */
+    public JerseyException(Response.Status status, String msg) {
+        super(status, msg);
     }
 
     /**
-     * Construct a exception with http status and user message.
+     * 用一个消息<code>msg</code>及产生本异常的原因root构造一个Exception. <p /> 在翻译国际化消息时，msg将作为在字典中查找消息的key，若不存在，则getMessage()直接返回该msg。
+     * <p /> 对于原因<code>root</code>， <Ul> <Li>root 为I18NException的实例，则 root 的getMessage()消息会作为msg对应消息的参数。 <Li>root
+     * 不是I18NException实例，则 root 自身的消息作为msg对应的消息参数。 </Ul>
      *
-     * @param status
-     * @param msg
+     * @param msg  错误消息
+     * @param root 异常的原因
      */
-    public JerseyException(Status status, String msg)
-    {
-        super(msg);
-        this.status = status;
+    public JerseyException(String msg, Throwable root) {
+        super(msg, root);
     }
 
     /**
-     * Construct a exception with http status, user message and input parameters.
+     * 用一个消息<code>msg</code>及其参数<code>params</code>构造一个Exception. <p /> 在翻译国际化消息时，params将作为以<code>msg</code>作为key的消息的参数；若msg在字典中不存在对应的消息，
+     * 则getMessage()方法直接返回该msg。
      *
-     * @param status
-     * @param msg
-     * @param params
+     * @param msg    错误消息
+     * @param params 消息的参数
      */
-    public JerseyException(Status status, String msg, Object[] params)
-    {
-        super(msg);
-        this.params = params;
-        this.status = status;
+    public JerseyException(Response.Status status, String msg, Object[] params) {
+        super(status, msg, params);
+    }
+
+    /**
+     * 用一个消息<code>msg</code>，其参数<code>params</code>，及其原因root构造一个异常。 <p /> 在翻译国际化消息的时候，params
+     * 将优先作为消息的参数。若params数组的长度为0，则用root的getMessage()消息作为参数。
+     *
+     * @param msg    错误消息
+     * @param params 消息参数
+     * @param root   异常的原因
+     */
+    public JerseyException(String msg, Object[] params, Throwable root) {
+        super(msg, params, root);
+    }
+
+    /**
+     * 用一个cause构在一个Exception。
+     *
+     * @param cause 造成本 Exception 的原因。
+     */
+    public JerseyException(Throwable cause) {
+        super(cause);
     }
 
     //Methods
-
-    /**
-     * Return the parameter object.
-     * @return
-     */
-    public Object[] getParams()
-    {
-        return params;
-    }
-
-    /**
-     * Return the http status code.
-     * @return
-     */
-    public int getStatus()
-    {
-        return status.getStatusCode();
-    }
-
-    /**
-     * Override the getMessage() method.
-     * Return the format message with parameters.
-     *
-     * @return
-     */
-    @Override
-    public String getMessage()
-    {
-        if (this.params != null && this.params.length > 0)
-        {
-            return formatMessage(super.getMessage(), params);
-        }
-        else if (this.getCause() != null)
-        {
-            if (this.getCause() instanceof JerseyException)
-            {
-                JerseyException cause = (JerseyException) this.getCause();
-                return formatMessage(super.getMessage(), new Object[]{cause.getMessage()});
-            }
-            else
-            {
-                return formatMessage(super.getMessage(), new Object[]{this.getCause().getMessage()});
-            }
-        }
-        else
-        {
-            return super.getMessage();
-        }
-    }
-    
-    public String formatMessage(String message, Object[] params)
-    {
-        return MessageFormat.format(message, params);
-    }
 } // end class
