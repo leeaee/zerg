@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper">
+
+    <!-- 定义全局查询的SQL变量语句 -->
+    <sql id="entityColumn"> 
+        id, name, password, phone, mobile, email, state, description, 
+        true_name as trueName, 
+        create_time as createTime, 
+        last_modify as lastModify, 
+        last_login as lastLogin 
+    </sql>
+
+    <!-- 获取用户：输出直接映射到对象 -->
+    <select id="find" parameterType="long" resultType="admin">
+        select <include refid="entityColumn" />
+        from cs_admin
+        where id=#{id}
+    </select>
+
+    <!-- 更新新用户 -->
+    <update id="update" parameterType="Admin">
+        update cs_admin
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">name=#{name},</if>
+            <if test="trueName != null">true_name=#{trueName},</if>
+            <if test="password != null">password=#{password},</if>
+            <if test="phone != null">phone=#{phone},</if>
+            <if test="mobile != null">mobile=#{mobile},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="state != null">state=#{state},</if>
+            <if test="description != null">description=#{description},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="lastModify != null">last_modify=#{lastModify},</if>
+            <if test="lastLogin != null">last_login=#{lastLogin}</if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        delete from cs_admin where id=#{id}
+    </delete>
+
+</mapper> 
