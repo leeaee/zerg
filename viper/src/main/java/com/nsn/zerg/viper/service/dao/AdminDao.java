@@ -11,12 +11,11 @@ import org.mybatis.guice.transactional.Transactional;
  */
 public interface AdminDao
 {
-    @Transactional
-    public Admin find(Long id) throws EntityNotFoundException;
+    public Admin find(Long id);
 
-    @Transactional
+    public Admin findByName(String name);
+
     public void update(Admin admin);
 
-    @Transactional
     public void delete(Long id);
 }

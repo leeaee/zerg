@@ -1,7 +1,6 @@
 package com.nsn.zerg.viper.service.spi.mybatis;
 
 import com.nsn.zerg.viper.entity.Admin;
-import com.nsn.zerg.viper.exception.EntityNotFoundException;
 import com.nsn.zerg.viper.service.dao.AdminDao;
 import org.apache.ibatis.session.SqlSession;
 
@@ -19,14 +18,15 @@ public class AdminDaoImpl implements AdminDao
 
     //Methods
     @Override
-    public Admin find(Long id) throws EntityNotFoundException
+    public Admin find(Long id)
     {
-        Admin admin = this.sqlSession.selectOne("com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper.find", id);
-        if (admin == null)
-        {
-            throw new EntityNotFoundException(Admin.KEY, id);
-        }
-        return admin;
+        return this.sqlSession.selectOne("com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper.find", id);
+    }
+
+    @Override
+    public Admin findByName(String name)
+    {
+        return this.sqlSession.selectOne("com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper.findByName", name);
     }
 
     @Override

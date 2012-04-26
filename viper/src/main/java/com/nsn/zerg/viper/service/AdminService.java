@@ -39,9 +39,14 @@ public class AdminService
         }
         catch (ExecutionException e)
         {
-            Throwables.propagateIfPossible(e.getCause(), EntityNotFoundException.class);
-            throw new RuntimeException(e);
+            Throwables.propagateIfInstanceOf(e.getCause(), EntityNotFoundException.class);
+            throw Throwables.propagate(e);
         }
+    }
+
+    public Admin getAdmin(String name) throws EntityNotFoundException
+    {
+        return adminDao.findByName(name);
     }
 
     public void updateAdmin(Admin admin)
