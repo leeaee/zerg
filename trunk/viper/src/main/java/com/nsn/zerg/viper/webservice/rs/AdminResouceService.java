@@ -4,7 +4,6 @@ import com.nsn.zerg.viper.core.jersey.Jerseys;
 import com.nsn.zerg.viper.entity.Admin;
 import com.nsn.zerg.viper.exception.EntityNotFoundException;
 import com.nsn.zerg.viper.service.AdminService;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,14 +17,11 @@ import javax.ws.rs.core.MediaType;
  * Time: 3:52 PM
  */
 @Path("/admin")
-@RequiresRoles({"admin"})
 public class AdminResouceService
 {
     //Properties
     private static Logger logger = LoggerFactory.getLogger(AdminResouceService.class);
-
     private AdminService adminService;
-    //Constructors
 
     //Methods
     @GET

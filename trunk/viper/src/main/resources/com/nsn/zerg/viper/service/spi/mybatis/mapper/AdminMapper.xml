@@ -19,8 +19,14 @@
         where id=#{id}
     </select>
 
+    <select id="findByName" parameterType="string" resultType="admin">
+        select <include refid="entityColumn" />
+        from cs_admin
+        where name=#{name}
+    </select>
+
     <!-- 更新新用户 -->
-    <update id="update" parameterType="Admin">
+    <update id="update" parameterType="admin">
         update cs_admin
         <trim prefix="set" suffixOverrides=",">
             <if test="name != null">name=#{name},</if>

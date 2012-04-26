@@ -1,9 +1,8 @@
 package com.nsn.zerg.viper.module;
 
-import com.google.inject.Provides;
-import org.apache.shiro.config.Ini;
+import com.google.inject.Scopes;
+import com.nsn.zerg.viper.realm.ShiroDbRealm;
 import org.apache.shiro.guice.web.ShiroWebModule;
-import org.apache.shiro.realm.text.IniRealm;
 
 import javax.servlet.ServletContext;
 
@@ -21,26 +20,12 @@ public class ShiroSecurityModule extends ShiroWebModule
     }
 
     //Methods
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     protected void configureShiroWeb()
     {
-        try
-        {
-            bindRealm().toConstructor(IniRealm.class.getConstructor(Ini.class));
-        }
-        catch (NoSuchMethodException e)
-        {
-            addError(e);
-        }
+        bindRealm().to(ShiroDbRealm.class).in(Scopes.SINGLETON);
 
-//        addFilterChain("/admin/**", AUTHC, config(ROLES, "admin"));
-        addFilterChain("/**", AUTHC_BASIC);
-    }
-
-    @Provides
-    Ini loadShiroIni()
-    {
-        return Ini.fromResourcePath("classpath:conf/shiro.ini");
+        addFilterChain("/admin/**", NO_SESSION_CREATION, AUTHC_BASIC, config(REST, "admin"));
     }
 } // end class

@@ -10,4 +10,6 @@ import com.nsn.zerg.viper.entity.Admin;
 public interface AdminMapper
 {
     public Admin find(Long id);
+
+    public Admin findByName(String name);
 }
