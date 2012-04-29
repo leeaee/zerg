@@ -19,8 +19,6 @@ import java.util.List;
  */
 public class InitListener extends GuiceServletContextListener
 {
-    //Properties
-
     //Methods
     @Override
     protected Injector getInjector()

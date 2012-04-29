@@ -11,35 +11,27 @@ import com.nsn.zerg.viper.service.dao.AdminDao;
  * Time: 2:04 PM
  * Revision: 1.01
  */
-public class AdminCacheLoder extends CacheLoader<Object, Admin>
+public class AdminByIdCacheLoder extends CacheLoader<Long, Admin>
 {
     //Properties
     private AdminDao adminDao;
 
-    public AdminCacheLoder(AdminDao adminDao)
+    public AdminByIdCacheLoder(AdminDao adminDao)
     {
         this.adminDao = adminDao;
     }
 
     //Methods
     @Override
-    public Admin load(Object key) throws EntityNotFoundException
+    public Admin load(Long id) throws EntityNotFoundException
     {
-        Admin admin = null;
-        if (key instanceof Long)
-        {
-            admin = adminDao.find(Long.valueOf(key.toString()));
-        }
-        else if (key instanceof String)
-        {
-            System.out.println("key >>> " + key);
-            admin = adminDao.findByName(key.toString());
-        }
+        Admin admin = adminDao.find(id);
 
         if (admin == null)
         {
-            throw new EntityNotFoundException(Admin.KEY, key);
+            throw new EntityNotFoundException("Admin(id)", id);
         }
+
         return admin;
     }
 } // end class

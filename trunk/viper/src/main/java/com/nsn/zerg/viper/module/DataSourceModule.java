@@ -1,6 +1,7 @@
 package com.nsn.zerg.viper.module;
 
 import com.nsn.zerg.viper.entity.Admin;
+import com.nsn.zerg.viper.entity.Role;
 import com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.MyBatisModule;
@@ -26,5 +27,6 @@ public class DataSourceModule extends MyBatisModule
         bindTransactionFactoryType(JdbcTransactionFactory.class);
         addMapperClass(AdminMapper.class);
         addSimpleAlias(Admin.class);
+        addSimpleAlias(Role.class);
     }
 } // end class
