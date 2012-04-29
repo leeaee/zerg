@@ -1,24 +1,30 @@
-package com.nsn.zerg.viper.entity;
+package com.nsn.zerg.viper.webservice.rs.dto;
 
-import com.google.common.collect.Lists;
+import com.nsn.zerg.viper.core.constant.Constants;
 import com.nsn.zerg.viper.core.mapper.JsonMapper;
-import com.nsn.zerg.viper.entity.common.IdEntity;
 
-import java.io.Serializable;
+import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Author: Genkyo Lee <genkyo.lee@gmail.com>
- * Date: 3/11/12
- * Time: 5:10 PM
- * Revision: 1.01
+ * User: Roger Li
+ * Date: 3/6/12
+ * Time: 13:08 PM
  */
-public class Admin extends IdEntity implements Serializable
+@XmlType
+(
+    namespace = Constants.NS,
+    propOrder =
+    {
+        "id", "name", "trueName", "phone", "mobile", "email",
+        "state", "description", "lastLogin", "lastModify", "createTime", "roles"
+    }
+)
+@XmlRootElement(name = "admin")
+public class AdminDto
 {
-    private static final long serialVersionUID = -2505591172046127150L;
-    public static final String KEY = "entity.admin";
-
-    //Properties
+    private Long id;
     private String name;
     private String password;
     private String trueName;
@@ -31,19 +37,18 @@ public class Admin extends IdEntity implements Serializable
     private Long lastModify;
     private Long createTime;
 
-    private List<Role> roles = Lists.newArrayList();
+    private List<RoleDto> roles = new ArrayList<RoleDto>();
 
-    //Constructors
-    public Admin()
+    public Long getId()
     {
+        return id;
     }
 
-    public Admin(String name)
+    public void setId(Long id)
     {
-        this.name = name;
+        this.id = id;
     }
 
-    //Methods
     public String getName()
     {
         return name;
@@ -54,6 +59,7 @@ public class Admin extends IdEntity implements Serializable
         this.name = name;
     }
 
+    @XmlTransient
     public String getPassword()
     {
         return password;
@@ -154,12 +160,14 @@ public class Admin extends IdEntity implements Serializable
         this.createTime = createTime;
     }
 
-    public List<Role> getRoles()
+    @XmlElementWrapper(name = "roles")
+    @XmlElement(name = "role")
+    public List<RoleDto> getRoles()
     {
         return roles;
     }
 
-    public void setRoles(List<Role> roles)
+    public void setRoles(List<RoleDto> roles)
     {
         this.roles = roles;
     }
@@ -167,6 +175,7 @@ public class Admin extends IdEntity implements Serializable
     @Override
     public String toString()
     {
-        return JsonMapper.buildNormalMapper().toJson(this);
+        return JsonMapper.buildNonNullMapper().toJson(this);
     }
 } // end class
+

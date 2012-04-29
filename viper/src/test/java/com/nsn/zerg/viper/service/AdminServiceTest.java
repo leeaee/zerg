@@ -24,11 +24,17 @@ public class AdminServiceTest
     {
         Injector injector = Guice.createInjector(new ConfigModule(), new DataSourceModule(), new ServiceModule());
         AdminService service = injector.getInstance(AdminService.class);
-        System.out.println(service.getAdmin(1L));
-        System.out.println(service.getAdmin(118L));
-        Admin admin = new Admin();
-        admin.setId(118L);
-        admin.setMobile("12344007788");
-        service.updateAdmin(admin);
+        long startTime = System.currentTimeMillis();
+        service.getAdmin(1L);
+        //        for (int i = 0; i < 10000; i ++)
+        //        {
+        //            service.getAdmin(1L);
+        //        }
+        System.out.println("Guice cast time: " + (System.currentTimeMillis() - startTime));
+//        System.out.println(service.getAdmin(118L));
+//        Admin admin = new Admin();
+//        admin.setId(118L);
+//        admin.setMobile("12344007788");
+//        service.updateAdmin(admin);
     }
 } // end class

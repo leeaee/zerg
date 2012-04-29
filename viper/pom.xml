@@ -6,7 +6,7 @@
 
     <groupId>com.nsn.zerg.viper</groupId>
     <artifactId>zerg-viper</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +21,7 @@
         <mysql.version>5.1.19</mysql.version>
         <jackson.version>2.0.0</jackson.version>
         <shiro.version>1.2.0</shiro.version>
+        <dozer.version>5.3.2</dozer.version>
         <jetty.version>8.1.2.v20120308</jetty.version>
     </properties>
 
@@ -135,6 +136,12 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-guice</artifactId>
             <version>${shiro.version}</version>
+        </dependency>
+        <!-- dozer -->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>${dozer.version}</version>
         </dependency>
         <!-- jetty -->
         <dependency>

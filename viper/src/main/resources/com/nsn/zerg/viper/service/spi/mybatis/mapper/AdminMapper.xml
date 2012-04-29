@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper">
+<mapper namespace="com.nsn.zerg.viper.service.spi.mapper.mapper.AdminMapper">
 
     <!-- 定义全局查询的SQL变量语句 -->
     <sql id="entityColumn"> 
@@ -12,11 +12,36 @@
         last_login as lastLogin 
     </sql>
 
+    <resultMap id="adminMap" type="admin">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="password" column="password" />
+        <result property="phone" column="phone" />
+        <result property="mobile" column="mobile" />
+        <result property="email" column="email" />
+        <result property="state" column="state" />
+        <result property="description" column="description" />
+        <result property="trueName" column="true_name" />
+        <result property="createTime" column="create_time" />
+        <result property="lastModify" column="last_modify" />
+        <result property="lastLogin" column="last_login" />
+        <collection property="roles" javaType="role">
+            <result property="id" column="role_id" />
+            <result property="name" column="role_name" />
+            <result property="description" column="role_description" />
+            <result property="createTime" column="role_create_time" />
+            <result property="lastModify" column="role_last_modify" />
+        </collection>
+    </resultMap>
+
     <!-- 获取用户：输出直接映射到对象 -->
-    <select id="find" parameterType="long" resultType="admin">
-        select <include refid="entityColumn" />
-        from cs_admin
-        where id=#{id}
+    <select id="find" parameterType="long" resultMap="adminMap">
+        select a.id, a.name, a.password, a.phone, a.mobile, a.email, a.state, a.description,
+        a.true_name, a.create_time, a.last_modify, a.last_login,
+        r.id as role_id, r.name as role_name, r.description as role_description,
+        r.create_time as role_create_time, r.last_modify as role_last_modify
+        from cs_admin a, cs_admin_x_role x, cs_role r
+        where a.id = x.admin_id and x.role_id = r.id and a.id = #{id}
     </select>
 
     <select id="findByName" parameterType="string" resultType="admin">

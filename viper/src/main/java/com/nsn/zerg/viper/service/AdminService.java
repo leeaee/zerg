@@ -6,7 +6,7 @@ import com.google.common.cache.LoadingCache;
 import com.nsn.zerg.viper.entity.Admin;
 import com.nsn.zerg.viper.exception.EntityNotFoundException;
 import com.nsn.zerg.viper.service.dao.AdminDao;
-import com.nsn.zerg.viper.service.spi.cache.AdminCacheLoder;
+import com.nsn.zerg.viper.service.spi.cache.AdminByIdCacheLoder;
 
 import javax.inject.Inject;
 import java.util.concurrent.ExecutionException;
@@ -27,7 +27,7 @@ public class AdminService
     public AdminService(AdminDao adminDao)
     {
         this.adminDao = adminDao;
-        this.cache = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(15, TimeUnit.MINUTES).build(new AdminCacheLoder(adminDao));
+        this.cache = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(15, TimeUnit.MINUTES).build(new AdminByIdCacheLoder(adminDao));
     }
 
     //Methods
@@ -39,14 +39,9 @@ public class AdminService
         }
         catch (ExecutionException e)
         {
-            Throwables.propagateIfInstanceOf(e.getCause(), EntityNotFoundException.class);
+            Throwables.propagateIfPossible(e.getCause(), EntityNotFoundException.class);
             throw Throwables.propagate(e);
         }
-    }
-
-    public Admin getAdmin(String name) throws EntityNotFoundException
-    {
-        return adminDao.findByName(name);
     }
 
     public void updateAdmin(Admin admin)

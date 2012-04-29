@@ -3,6 +3,7 @@ package com.nsn.zerg.viper.service.spi.mybatis;
 import com.nsn.zerg.viper.entity.Admin;
 import com.nsn.zerg.viper.service.dao.AdminDao;
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.guice.transactional.Transactional;
 
 import javax.inject.Inject;
 
@@ -18,24 +19,28 @@ public class AdminDaoImpl implements AdminDao
 
     //Methods
     @Override
+    @Transactional
     public Admin find(Long id)
     {
         return this.sqlSession.selectOne("com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper.find", id);
     }
 
     @Override
+    @Transactional
     public Admin findByName(String name)
     {
         return this.sqlSession.selectOne("com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper.findByName", name);
     }
 
     @Override
+    @Transactional
     public void update(Admin admin)
     {
         this.sqlSession.update("com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper.update", admin);
     }
 
     @Override
+    @Transactional
     public void delete(Long id)
     {
         this.sqlSession.delete("com.nsn.zerg.viper.service.spi.mybatis.mapper.AdminMapper.delete", id);

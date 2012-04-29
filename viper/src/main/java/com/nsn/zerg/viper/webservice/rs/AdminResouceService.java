@@ -1,9 +1,10 @@
 package com.nsn.zerg.viper.webservice.rs;
 
 import com.nsn.zerg.viper.core.jersey.Jerseys;
-import com.nsn.zerg.viper.entity.Admin;
+import com.nsn.zerg.viper.core.mapper.BeanMapper;
 import com.nsn.zerg.viper.exception.EntityNotFoundException;
 import com.nsn.zerg.viper.service.AdminService;
+import com.nsn.zerg.viper.webservice.rs.dto.AdminDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,12 +28,12 @@ public class AdminResouceService
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Admin getAdmin(@PathParam("id") Long id)
+    public AdminDto getAdmin(@PathParam("id") Long id)
     {
         logger.debug("get admin by @PathParam(\"id\"): {}", id);
         try
         {
-            return adminService.getAdmin(id);
+            return BeanMapper.map(adminService.getAdmin(id), AdminDto.class);
         }
         catch (EntityNotFoundException e)
         {

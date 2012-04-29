@@ -9,4 +9,6 @@ public final class Constants
 {
     //Properties
     public static final String JDBC_CONFIG = "conf/jdbc.properties";
+
+    public static final String NS = "http://zerg.nsn.com/viper";
 } // end class

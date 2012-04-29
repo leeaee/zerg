@@ -1,8 +1,11 @@
 package com.nsn.zerg.viper.realm;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.nsn.zerg.viper.entity.Admin;
 import com.nsn.zerg.viper.service.dao.AdminDao;
+import com.nsn.zerg.viper.service.spi.cache.AdminByNameCacheLoder;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -12,6 +15,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import javax.inject.Inject;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: YiLi
@@ -21,12 +26,14 @@ import javax.inject.Inject;
 public class ShiroDbRealm extends AuthorizingRealm
 {
     //Properties
-    private AdminDao adminDao;
+    private LoadingCache<String, Admin> cache;
 
-    public ShiroDbRealm()
+    @Inject
+    public ShiroDbRealm(AdminDao adminDao)
     {
         setCachingEnabled(false);
         setCredentialsMatcher(new HashedCredentialsMatcher(Md5Hash.ALGORITHM_NAME));
+        this.cache = CacheBuilder.newBuilder().maximumSize(1000).expireAfterAccess(15, TimeUnit.MINUTES).build(new AdminByNameCacheLoder(adminDao));
     }
 
     //Methods
@@ -34,16 +41,15 @@ public class ShiroDbRealm extends AuthorizingRealm
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException
     {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        String username = token.getUsername();
-        Admin admin = adminDao.find(1L);
 
-        if (admin != null)
+        try
         {
+            Admin admin = cache.get(token.getUsername());
             return new SimpleAuthenticationInfo(admin.getName(), admin.getPassword(), getName());
         }
-        else
+        catch (ExecutionException e)
         {
-            return null;
+            throw new AuthenticationException(e.getCause().getMessage());
         }
     }
 
@@ -51,7 +57,8 @@ public class ShiroDbRealm extends AuthorizingRealm
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals)
     {
         String username = (String) principals.fromRealm(getName()).iterator().next();
-        Admin admin = adminDao.find(1L);
+        Admin admin = cache.getIfPresent(username);
+
         if (admin != null)
         {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -62,11 +69,5 @@ public class ShiroDbRealm extends AuthorizingRealm
         {
             return null;
         }
-    }
-
-    @Inject
-    public void setAdminDao(AdminDao adminDao)
-    {
-        this.adminDao = adminDao;
     }
 } // end class
