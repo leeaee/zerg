@@ -1,0 +1,1 @@
+Build a plateform base on rest web service, other application as plugin on core service.
